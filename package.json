@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:ssg && npm run build:api",
-    "build:ssg": "tsc && vite build",
-    "build:api": "rm -rf .stormkit/api && node --loader ts-node/esm vite.config.api.ts",
+    "build": "npm run build:ssg && npm run build:api && npm run build:ssr",
+    "build:ssg": "tsc && vite build --outDir .stormkit/public",
+    "build:ssr": "tsc && vite build --outDir .stormkit/server --ssr src/entry-server.tsx && npm run build:ssr:configure",
+    "build:ssr:configure": "mv .stormkit/server/entry-server.js .stormkit/server/server.js && cp .stormkit/public/index.html .stormkit/server/ && rm .stormkit/server/*.svg",
+    "build:api": "rm -rf .stormkit/api && node --loader ts-node/esm vite.config.api.ts && npm run build:api:configure",
+    "build:api:configure": "rm .stormkit/api/*.svg",
     "preview": "vite preview",
     "server": "nodemon --watch './**/*.ts' --exec 'node --loader ts-node/esm' src/vite-server.ts"
   },
@@ -18,7 +21,7 @@
     "react-router-dom": "^6.4.3"
   },
   "devDependencies": {
-    "@stormkit/serverless": "^0.14.1",
+    "@stormkit/serverless": "^0.15.0",
     "@types/express": "^4.17.14",
     "@types/glob": "^8.0.0",
     "@types/react": "^18.0.24",
