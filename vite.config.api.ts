@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const files = glob.sync("src/api/**/*.ts").map((file) => ({
   entry: `./${file}`,
-  distFileName: file.replace("src/", "").replace(".ts", ""),
+  distFileName: file.replace("src/api/", "").replace(".ts", ""),
 }));
 
 files.forEach(async (file) => {
@@ -27,7 +27,7 @@ files.forEach(async (file) => {
         entry: { [file.distFileName]: file.entry },
         formats: ["cjs"],
       },
-      outDir: ".stormkit",
+      outDir: ".stormkit/api",
     },
   });
 });

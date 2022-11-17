@@ -13,5 +13,12 @@ export default defineConfig({
     ],
     extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        dir: ".stormkit/public",
+      },
+    },
+  },
   plugins: [react()],
 });
