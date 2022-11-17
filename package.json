@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "npm run build:ssg && npm run build:api",
     "build:ssg": "tsc && vite build",
-    "build:api": "node --loader ts-node/esm vite.config.api.ts",
+    "build:api": "rm -rf .stormkit/api && node --loader ts-node/esm vite.config.api.ts",
     "preview": "vite preview",
     "server": "nodemon --watch './**/*.ts' --exec 'node --loader ts-node/esm' src/vite-server.ts"
   },
