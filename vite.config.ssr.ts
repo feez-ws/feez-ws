@@ -33,8 +33,9 @@ export default defineConfig({
       input: { server: "src/entry-server.tsx" },
       output: {
         dir: ".stormkit/server",
-        entryFileNames: "[name].mjs",
         format: "esm",
+        entryFileNames: "[name].mjs",
+        chunkFileNames: "[name].mjs",
         exports: "named",
       },
     },
