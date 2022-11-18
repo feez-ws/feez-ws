@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:ssg && npm run build:api && npm run build:ssr",
+    "build": "npm run build:ssg && npm run build:api && npm run build:ssr && npm run post:build",
     "build:ssg": "tsc && vite build --outDir .stormkit/public",
-    "build:ssr": "tsc && vite build -c vite.config.ssr.ts && cp index.html .stormkit/server/ && rm -rf .stormkit/server/*.png",
-    "build:api": "rm -rf .stormkit/api && node --loader ts-node/esm vite.config.api.ts && rm -rf .stormkit/api/*.svg",
+    "build:ssr": "tsc && vite build -c vite.config.ssr.ts",
+    "build:api": "rm -rf .stormkit/api && node --loader ts-node/esm vite.config.api.ts",
+    "post:build": "cp .stormkit/public/index.html .stormkit/server/ && rm -rf .stormkit/server/*.svg && rm -rf .stormkit/api/*.svg",
     "preview": "vite preview",
     "server": "nodemon --watch './**/*.ts' --exec 'node --loader ts-node/esm' src/vite-server.ts"
   },
