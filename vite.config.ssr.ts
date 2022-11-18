@@ -7,7 +7,14 @@ process.env.NODE_ENV = "production";
 // https://vitejs.dev/config/
 export default defineConfig({
   ssr: {
-    noExternal: ["react", "react-dom", "react-router", "react-router-dom"],
+    noExternal: [
+      "react",
+      "react-dom",
+      "react-router",
+      "react-router-dom",
+      "@stormkit/serverless",
+      "@remix-run/router",
+    ],
   },
   resolve: {
     alias: [
