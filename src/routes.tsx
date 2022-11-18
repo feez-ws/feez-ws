@@ -2,10 +2,24 @@ import type { RouteProps } from "react-router";
 import Async from "~/components/Async";
 import HomePage from "~/pages";
 
-const routes: RouteProps[] = [
-  { path: "/", element: <HomePage /> },
-  { path: "/my", element: Async(() => import("~/pages/my")) },
-  { path: "/:name", element: Async(() => import("~/pages/[name]")) },
+const chunks = [
+  { path: "/my", chunk: () => import("~/pages/my") },
+  { path: "/:name", chunk: () => import("~/pages/[name]") },
 ];
 
-export default routes;
+const routes: RouteProps[] = [{ path: "/", element: <HomePage /> }];
+
+export default async () => {
+  if (typeof window === "undefined") {
+    for (const c of chunks) {
+      const Element = (await c.chunk()).default;
+      routes.push({ path: c.path, element: <Element /> });
+    }
+  } else {
+    chunks.forEach((c) => {
+      routes.push({ path: c.path, element: Async(c.chunk) });
+    });
+  }
+
+  return routes;
+};

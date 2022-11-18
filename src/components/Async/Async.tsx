@@ -6,7 +6,7 @@ const Async = (
   const Component = React.lazy(dynamicImport);
 
   if (typeof window === "undefined") {
-    return <Component />;
+    throw new Error("Async is designed to work for client-side routes.");
   }
 
   return (

@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import routes from "./routes";
+import createRoutes from "./routes";
 import "./index.css";
 
 async function createRoot() {
+  const routes = await createRoutes();
+
   ReactDOM.hydrateRoot(
     document.getElementById("root") as HTMLElement,
     <React.StrictMode>

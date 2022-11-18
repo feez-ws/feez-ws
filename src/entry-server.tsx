@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
 import { renderToString } from "react-dom/server";
 import serverless from "@stormkit/serverless";
-import routes from "./routes";
+import createRoutes from "./routes";
 
 interface RenderReturn {
   status: number;
@@ -14,6 +14,8 @@ interface RenderReturn {
 }
 
 export const render = async (url: string): Promise<RenderReturn> => {
+  const routes = await createRoutes();
+
   return {
     status: 200,
     content: renderToString(
