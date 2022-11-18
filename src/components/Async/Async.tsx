@@ -5,6 +5,10 @@ const Async = (
 ): React.ReactNode => {
   const Component = React.lazy(dynamicImport);
 
+  if (typeof window === "undefined") {
+    return <Component />;
+  }
+
   return (
     <React.Suspense>
       <Component />
