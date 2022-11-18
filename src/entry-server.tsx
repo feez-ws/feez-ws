@@ -7,8 +7,6 @@ import { renderToString } from "react-dom/server";
 import serverless from "@stormkit/serverless";
 import routes from "./routes";
 
-const __dirname = path.join(fileURLToPath(import.meta.url));
-
 interface RenderReturn {
   status: number;
   content: string;
@@ -33,10 +31,8 @@ export const render = async (url: string): Promise<RenderReturn> => {
 
 export const handler = serverless(async (req: any, res: any) => {
   // We are in assets folder
-  const html = fs.readFileSync(
-    path.join(__dirname, "../../index.html"),
-    "utf-8"
-  );
+  const dir = path.dirname(fileURLToPath(import.meta.url));
+  const html = fs.readFileSync(path.join(dir, "./index.html"), "utf-8");
 
   const { status, content, head } = await render(
     req.url?.split(/\?#/)[0] || "/"
