@@ -38,7 +38,7 @@ export const handler = serverless(async (req: any, res: any) => {
     req.url?.split(/\?#/)[0] || "/"
   );
 
-  res.writeHead(status, "OK", { "Content-Type": "text/html" });
+  res.writeHead(status, "OK", { "Content-Type": "text/html; charset=utf-8" });
   res.write(
     html
       .replace("</head>", `${head}</head>`)
