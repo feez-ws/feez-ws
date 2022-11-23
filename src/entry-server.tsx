@@ -13,7 +13,9 @@ interface RenderReturn {
   head: string;
 }
 
-export const render = async (url: string): Promise<RenderReturn> => {
+export type RenderFunction = (url: string) => Promise<RenderReturn>;
+
+export const render: RenderFunction = async (url) => {
   const routes = await createRoutes();
 
   return {

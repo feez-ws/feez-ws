@@ -1,3 +1,4 @@
+import type { RenderFunction } from "./entry-server";
 import fs from "fs";
 import path from "path";
 import express from "express";
@@ -6,6 +7,12 @@ import { createServer as createViteServer } from "vite";
 import { matchPath } from "@stormkit/serverless/router";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function injectContent(head: string, content: string, template: string) {
+  return template
+    .replace(`</head>`, `${head}</head>`)
+    .replace(`<div id="root"></div>`, `<div id="root">${content}</div>`);
+}
 
 async function createServer() {
   const app = express();
@@ -39,7 +46,7 @@ async function createServer() {
 
   app.get("*", async (req, res, next) => {
     try {
-      const url = req.originalUrl.split(/\?#/)[0];
+      const url: string = req.originalUrl.split(/\?#/)[0] || "/";
 
       // // 1. Read and apply Vite HTML transforms. This injects the Vite HMR client, and
       // //    also applies HTML transforms from Vite plugins, e.g. global preambles
@@ -52,17 +59,16 @@ async function createServer() {
       // 2. Load the server entry. vite.ssrLoadModule automatically transforms
       //    your ESM source code to be usable in Node.js! There is no bundling
       //    required, and provides efficient invalidation similar to HMR.
-      const { render } = await vite.ssrLoadModule("./src/entry-server");
-      const { status, content, head } = await render(url);
+      const { render } = (await vite.ssrLoadModule("./src/entry-server")) as {
+        render: RenderFunction;
+      };
+
+      const rendered = await render(url);
 
       return res
-        .status(status)
+        .status(rendered.status)
         .set({ "Content-Type": "text/html" })
-        .send(
-          template
-            .replace(`<div id="root"></div>`, `<div id="root">${content}</div>`)
-            .replace(`</head>`, `${head}</head>`)
-        );
+        .send(injectContent(rendered.head, rendered.content, template));
     } catch (e) {
       // If an error is caught, let Vite fix the stack trace so it maps back to
       // your actual source code.
@@ -79,4 +85,41 @@ async function createServer() {
   });
 }
 
-createServer();
+async function generateStaticPages() {
+  const routesToPrerender = ["/", "/my"];
+
+  // Create Vite server to load the routes files
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: "custom",
+  });
+
+  const { render } = (await vite.ssrLoadModule("./src/entry-server.tsx")) as {
+    render: RenderFunction;
+  };
+
+  const dist = path.join(path.dirname(__dirname), ".stormkit/public");
+  const template = fs.readFileSync(path.join(dist, "/index.html"), "utf-8");
+
+  for (const r of routesToPrerender) {
+    const data = await render(r);
+    const fileName = r.endsWith("/") ? `${r}index.html` : `${r}.html`;
+    const absPath = path.join(dist, fileName);
+    const content = injectContent(data.head, data.content, template);
+
+    fs.writeFileSync(absPath, content, "utf-8");
+
+    console.log(`Prerendered: ${fileName}`);
+  }
+
+  await vite.close();
+}
+
+(async () => {
+  if (process.env.SSG === "true") {
+    console.info("Detected SSG=true - generating static routes...");
+    await generateStaticPages();
+  } else {
+    createServer();
+  }
+})();
