@@ -1,6 +1,6 @@
-import type { Request, Response } from "~/helpers/api/http";
-import http from "~/helpers/api/http";
+import type { IncomingMessage, ServerResponse } from "node:http";
+import { send } from "~/helpers/api/http";
 
-export default http((_: Request, res: Response) => {
-  res.send({ status: "running" });
-});
+export default (_: IncomingMessage, res: ServerResponse) => {
+  send(res, { status: "running" });
+};

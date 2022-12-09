@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, RouteProps } from "react-router-dom";
+import { BrowserRouter, RouteProps } from "react-router-dom";
+import { CacheProvider } from "@emotion/react";
 import createRoutes from "./routes";
 import Async from "~/components/Async";
+import App from "./App";
 import "./index.css";
 
 interface Props {
@@ -17,11 +19,7 @@ const Root: React.FC<Props> = ({ routes }) => {
   return (
     <React.StrictMode>
       <BrowserRouter>
-        <Routes>
-          {routes.map((route) => (
-            <Route key={route.path} {...route}></Route>
-          ))}
-        </Routes>
+        <App routes={routes} />
       </BrowserRouter>
     </React.StrictMode>
   );
