@@ -23,7 +23,7 @@ export const readBody = <T>(req: http.IncomingMessage): Promise<T> => {
       })
       .on("end", () => {
         console.log("request reading ended");
-        const body = Buffer.concat(data);
+        const body = Buffer.isBuffer(data) ? Buffer.concat(data) : data;
         const isUrlEncoded =
           req.headers["content-type"] === "application/x-www-form-urlencoded";
 
