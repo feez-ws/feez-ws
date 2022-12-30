@@ -13,7 +13,7 @@ const files = glob.sync("src/api/**/*.ts").map((file) => ({
 files.forEach(async (file) => {
   await build({
     ssr: {
-      noExternal: [/^(?!node:).*/],
+      noExternal: [/^(?!node:).*/, "@mui/material"],
     },
     configFile: false,
     resolve: {
