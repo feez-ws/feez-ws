@@ -12,6 +12,9 @@ const files = glob.sync("src/api/**/*.ts").map((file) => ({
 
 files.forEach(async (file) => {
   await build({
+    ssr: {
+      noExternal: [/^(?!node:).*/],
+    },
     configFile: false,
     resolve: {
       alias: [
@@ -23,11 +26,17 @@ files.forEach(async (file) => {
       extensions: [".ts", ".tsx"],
     },
     build: {
-      lib: {
-        entry: { [file.distFileName]: file.entry },
-        formats: ["cjs"],
+      ssr: true,
+      rollupOptions: {
+        input: {
+          [file.distFileName]: file.entry,
+        },
+        output: {
+          dir: ".stormkit/api",
+          format: "cjs",
+        },
       },
-      outDir: ".stormkit/api",
+      minify: false,
     },
   });
 });
