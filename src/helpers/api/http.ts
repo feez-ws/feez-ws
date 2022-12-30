@@ -1,8 +1,12 @@
 import * as http from "node:http";
 
-export const readBody = <T>(req: http.IncomingMessage): Promise<T> => {
+export const readBody = <T>(req: http.IncomingMessage): Promise<T | void> => {
   return new Promise((resolve, reject) => {
     const data: Buffer[] = [];
+
+    if (req.method?.toUpperCase() === "GET" || !req.method) {
+      return resolve();
+    }
 
     req
       .on("error", (err) => {
