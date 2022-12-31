@@ -1,0 +1,13 @@
+.MuiTextField-root {
+  @apply bg-white;
+}
+
+.MuiButtonBase-root {
+  @apply bg-violet-800;
+  text-transform: none;
+}
+
+.MuiLoadingButton-root.Mui-disabled {
+  @apply bg-violet-700;
+  @apply opacity-50;
+}

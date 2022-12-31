@@ -1,11 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { Routes, Route } from "react-router-dom";
 import { StaticRouter } from "react-router-dom/server";
 import { renderToString } from "react-dom/server";
 import serverless from "@stormkit/serverless";
 import createRoutes from "./routes";
+import App from "./App";
 
 interface RenderReturn {
   status: number;
@@ -22,14 +22,10 @@ export const render: RenderFunction = async (url) => {
     status: 200,
     content: renderToString(
       <StaticRouter location={url}>
-        <Routes>
-          {routes.map((r) => (
-            <Route key={r.path} {...r} />
-          ))}
-        </Routes>
+        <App routes={routes} />
       </StaticRouter>
     ),
-    head: "<title>Hello world</title>",
+    head: `<title>Hello world</title>`,
   };
 };
 
