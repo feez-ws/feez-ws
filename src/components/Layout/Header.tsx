@@ -6,7 +6,7 @@ const Header: React.FC = () => {
     <header className="p-4 bg-indigo-900 bg-opacity-30">
       <div className="max-w-screen-lg m-auto leading-none">
         <Link to="/" className="inline-flex">
-          <img src={logo} alt="Feez.ws" className="w-24" />
+          <img src={logo} alt="Feez.ws" className="w-20" />
         </Link>
       </div>
     </header>
