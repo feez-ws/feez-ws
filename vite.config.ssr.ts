@@ -27,6 +27,7 @@ export default defineConfig({
   },
   build: {
     ssr: true,
+    manifest: true,
     minify: false,
     rollupOptions: {
       preserveEntrySignatures: "strict",

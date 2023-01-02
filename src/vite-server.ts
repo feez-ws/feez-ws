@@ -101,11 +101,32 @@ async function generateStaticPages() {
   const dist = path.join(path.dirname(__dirname), ".stormkit/public");
   const template = fs.readFileSync(path.join(dist, "/index.html"), "utf-8");
 
+  let manifest: Record<string, any>;
+
+  try {
+    manifest = JSON.parse(
+      fs.readFileSync(path.join(dist, "..", "server", "manifest.json"), "utf-8")
+    );
+  } catch {
+    throw new Error(
+      "Cannot parse manifest.json file. Did you run npm run build:ssr?"
+    );
+  }
+
   for (const r of routesToPrerender) {
     const data = await render(r);
     const fileName = r.endsWith("/") ? `${r}index.html` : `${r}.html`;
     const absPath = path.join(dist, fileName);
-    const content = injectContent(data.head, data.content, template);
+    let content = injectContent(data.head, data.content, template);
+
+    Object.keys(manifest)
+      .filter((key) => key.startsWith("src/assets"))
+      .forEach((key: string) => {
+        content = content.replaceAll(
+          `/${key}`,
+          `/${manifest[key]?.assets?.[0]}`
+        );
+      });
 
     fs.writeFileSync(absPath, content, "utf-8");
 
