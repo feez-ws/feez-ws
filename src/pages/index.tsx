@@ -35,13 +35,6 @@ const Home: React.FC = () => {
       });
   };
 
-  const handleHowItWorks: React.MouseEventHandler = (e) => {
-    e.preventDefault();
-    document
-      .querySelector("#how-it-works")
-      ?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <main className="flex flex-col w-full">
       <Header />
