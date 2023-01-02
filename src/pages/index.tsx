@@ -64,7 +64,11 @@ const Home: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <div className="mt-4">
-                <LoadingButton variant="contained" loading={loading}>
+                <LoadingButton
+                  variant="contained"
+                  loading={loading}
+                  onClick={handleSubmit}
+                >
                   Subscribe
                 </LoadingButton>
               </div>
