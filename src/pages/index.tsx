@@ -35,35 +35,80 @@ const Home: React.FC = () => {
       });
   };
 
+  const handleHowItWorks: React.MouseEventHandler = (e) => {
+    e.preventDefault();
+    document
+      .querySelector("#how-it-works")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <main className="flex flex-col w-full">
       <Header />
       <section className="flex-grow p-4">
-        <div className="max-w-screen-lg m-auto flex flex-col items-center justify-center h-full">
-          <h1 className="mb-2">Track your progress in public</h1>
-          <h2 className="mb-12 text-xl">
-            Create goals, measure your progress and share the steps to success
-            with your audience.
-          </h2>
-          <form onSubmit={handleSubmit} className="w-full max-w-lg text-center">
-            <TextField
-              label="Be notified when the app is ready"
-              type="email"
-              variant="filled"
-              placeholder="your@email.com"
-              fullWidth
-              id="subscription-field"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <div className="my-4">
-              <LoadingButton variant="contained" loading={loading}>
-                Subscribe
-              </LoadingButton>
+        <div className="max-w-screen-lg m-auto flex flex-col h-full items-center justify-center">
+          <div>
+            <h1 className="mb-24 text-center text-5xl">
+              Track your progress in public
+            </h1>
+            <div className="flex flex-col items-center justify-center bg-indigo-900 bg-opacity-60 p-12 w-full rounded-lg">
+              <h2 className="mb-12 text-xl text-center">
+                Create goals, measure your progress
+                <br /> and share the steps to success with your audience.
+              </h2>
+              <form
+                onSubmit={handleSubmit}
+                className="w-full max-w-lg text-center"
+              >
+                <TextField
+                  label="Be notified when the app is ready"
+                  type="email"
+                  variant="filled"
+                  placeholder="your@email.com"
+                  fullWidth
+                  id="subscription-field"
+                  value={email}
+                  autoComplete="off"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <div className="my-4">
+                  <LoadingButton variant="contained" loading={loading}>
+                    Subscribe
+                  </LoadingButton>
+                </div>
+              </form>
+              {success && <div>{success}</div>}
+              {error && <div>{error}</div>}
             </div>
-          </form>
-          {success && <div>{success}</div>}
-          {error && <div>{error}</div>}
+            <div className="flex-grow mt-32">
+              <div className="grid grid-cols-3">
+                <div className="mr-4">
+                  <div>
+                    <h3 className="font-bold mb-4 mr-8">1. Set goals</h3>
+                    <p>
+                      Define daily, weekly, monthly, quarterly or yearly goals.
+                    </p>
+                  </div>
+                </div>
+                <div className="mr-4">
+                  <h3 className="font-bold mb-4 mr-8">2. Provide updates</h3>
+                  <p>
+                    Update metrics either through our API or manually from the
+                    UI.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-bold mb-4">
+                    3. Share with your audience
+                  </h3>
+                  <p>
+                    Describe the steps to success and grow your audience even
+                    more!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <Footer />

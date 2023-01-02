@@ -18,7 +18,13 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  @apply bg-indigo-900;
+  background: rgb(48, 46, 129);
+  background: radial-gradient(
+    circle,
+    rgba(48, 46, 129, 1) 0%,
+    rgba(39, 37, 110, 1) 59%,
+    rgba(32, 31, 96, 1) 100%
+  );
 }
 
 a {
