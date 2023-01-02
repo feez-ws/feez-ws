@@ -25,7 +25,7 @@ export const render: RenderFunction = async (url) => {
         <App routes={routes} />
       </StaticRouter>
     ),
-    head: `<title>Hello world</title>`,
+    head: `<title>Feez.ws | Track your progress in public</title>`,
   };
 };
 
