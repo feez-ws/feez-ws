@@ -1,5 +1,4 @@
 import http from "node:http";
-import path from "node:path";
 import ds from "@stormkit/serverless/datastore";
 import { readBody, send } from "~/helpers/api/http";
 import { WAITING_LIST } from "~/helpers/api/collections";

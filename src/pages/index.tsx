@@ -3,13 +3,14 @@ import { TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { Header, Footer } from "~/components/Layout";
 import { useAutoFocus } from "~/helpers/effects/input";
-import { subscribeUser } from "./index.actions";
+import { subscribeUser, useFetchNumberOfSubscribers } from "./index.actions";
 
 const Home: React.FC = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const subscribers = useFetchNumberOfSubscribers();
 
   useAutoFocus("#subscription-field");
 
@@ -71,6 +72,16 @@ const Home: React.FC = () => {
                 >
                   Subscribe
                 </LoadingButton>
+              </div>
+              <div className="text-xs mt-4" data-nosnippet>
+                {subscribers.count > 0 ? (
+                  <span>
+                    PS: progress on my target to build Feez: {subscribers.count}{" "}
+                    / 1000 subscribers
+                  </span>
+                ) : (
+                  "Loading..."
+                )}
               </div>
             </form>
             {success && <div>{success}</div>}

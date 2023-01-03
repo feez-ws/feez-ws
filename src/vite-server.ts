@@ -37,6 +37,12 @@ async function createServer() {
       req.method
     );
 
+    if (!route) {
+      res.status(404);
+      res.send();
+      return;
+    }
+
     const handler = (await vite.ssrLoadModule(`/src/api/${route}`)) as {
       default: express.Handler;
     };
