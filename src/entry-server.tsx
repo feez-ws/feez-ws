@@ -17,6 +17,15 @@ export type RenderFunction = (url: string) => Promise<RenderReturn>;
 
 export const render: RenderFunction = async (url) => {
   const routes = await createRoutes();
+  const tags = {
+    title: "Track your progress in public",
+    description:
+      "Create goals, measure your progress and share the steps to success with your audience.",
+    twitter: {
+      card: "summary",
+      creator: "@savasvedova",
+    },
+  };
 
   return {
     status: 200,
@@ -25,7 +34,17 @@ export const render: RenderFunction = async (url) => {
         <App routes={routes} />
       </StaticRouter>
     ),
-    head: `<title>Feez.ws | Track your progress in public</title>`,
+    head: `
+      <title>Feez | ${tags.title}</title>
+      <meta name="description" content="${tags.description}" />
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta property="og:title" content="Feez | ${tags.title}" />
+      <meta property="og:url" content="https://www.feez.ws/" />
+      <meta property="og:description" content="${tags.description}" />
+      <meta name="twitter:card" content="${tags.twitter!.card}" />
+      <meta name="twitter:creator" content="${tags.twitter!.creator}" />
+    `.trim(),
   };
 };
 
