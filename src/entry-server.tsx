@@ -22,7 +22,7 @@ export const render: RenderFunction = async (url) => {
     description:
       "Create goals, measure your progress and share the steps to success with your audience.",
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       creator: "@savasvedova",
     },
   };
