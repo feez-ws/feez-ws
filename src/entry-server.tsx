@@ -42,7 +42,7 @@ export const render: RenderFunction = async (url) => {
       <meta property="og:title" content="Feez | ${tags.title}" />
       <meta property="og:url" content="https://www.feez.ws/" />
       <meta property="og:description" content="${tags.description}" />
-      <meta property="og:image" content="https://www.feez.ws/feez-logo-rounded.png" />
+      <meta property="og:image" content="https://www.feez.ws/feez-logo-og.png" />
       <meta name="twitter:card" content="${tags.twitter!.card}" />
       <meta name="twitter:creator" content="${tags.twitter!.creator}" />
     `.trim(),
